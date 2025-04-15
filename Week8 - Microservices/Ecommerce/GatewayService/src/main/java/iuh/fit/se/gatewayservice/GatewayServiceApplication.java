@@ -1,5 +1,8 @@
 package iuh.fit.se.gatewayservice;
 
+import iuh.fit.se.gatewayservice.utils.JwtTokenGenerator;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -11,8 +14,17 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 public class GatewayServiceApplication {
 
+    @Autowired
+    private JwtTokenGenerator jwtTokenGenerator;
+
     public static void main(String[] args) {
         SpringApplication.run(GatewayServiceApplication.class, args);
+    }
+
+    @PostConstruct
+    public void printToken() {
+        String token = jwtTokenGenerator.generateToken("user123");
+        System.out.println("Generated Token for api : " + token);
     }
 
     @Bean
@@ -20,5 +32,4 @@ public class GatewayServiceApplication {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
 }

@@ -7,6 +7,8 @@ spring:
 
   cloud:
     gateway:
+      default-filters:
+        - name: JwtAuthenticationFilter
       discovery:
         locator:
           enabled: true
@@ -15,19 +17,19 @@ spring:
         - id: customer-service
           uri: lb://CUSTOMER-SERVICE
           predicates:
-            - Path=/api/customer/**
+            - Path=/api/customers/**
           filters:
             - StripPrefix=1
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:
-            - Path=/api/product/**
+            - Path=/api/products/**
           filters:
             - StripPrefix=1
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
-            - Path=/api/order/**
+            - Path=/api/orders/**
           filters:
             - StripPrefix=1
 
@@ -48,3 +50,6 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: true
+
+jwt:
+  secret: your_secure_jwt_secret_key_with_at_least_32_characters

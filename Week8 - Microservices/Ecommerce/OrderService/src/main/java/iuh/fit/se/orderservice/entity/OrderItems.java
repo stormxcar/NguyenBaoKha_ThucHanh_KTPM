@@ -18,4 +18,8 @@ public class OrderItems {
     private Long productId;
     private int quantity;
     private double price;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Orders order;
 }
